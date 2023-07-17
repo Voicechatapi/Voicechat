@@ -1,8 +1,8 @@
 /**
- * 
- * @param {string} bar - a string 
+ *
+ * @param {string} bar - a string
  * @returns {string}
  */
-function foo(bar){
-    return bar;
+function foo(bar) {
+    return bar
 }
