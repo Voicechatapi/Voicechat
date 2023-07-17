@@ -20,7 +20,7 @@ jobs:
         run: npm ci
         
       - name: JSDoc
-        run: npx jsdoc -c jsdoc.config.json
+        run: npx jsdoc -c jsdoc.conf.json
 
       - name: Commit JSDoc changes
         run: |
