@@ -5,7 +5,7 @@
     },
     "plugins": [],
     "templates": {
-      "cleverLinks": false,
+      "cleverLinks": true,
       "monospaceLinks": false
     },
     "opts": {
