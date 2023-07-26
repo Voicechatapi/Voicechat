@@ -38,8 +38,6 @@ indent-after-paren=4
 # tab).
 indent-string='    '
 
-string-quote=single
-
 # Maximum number of lines in a module
 max-module-lines=1000
 
