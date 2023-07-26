@@ -16,6 +16,7 @@ enable=bad-indentation,       # Used when an unexpected number of indentation’
        unused-variable        # Used when a variable is defined but not used. (Use _var to ignore var).
 
 
+
 [REPORTS]
 
 # Tells whether to display a full report or only the messages
@@ -36,6 +37,8 @@ indent-after-paren=4
 # String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
 # tab).
 indent-string='    '
+
+string-quote=single
 
 # Maximum number of lines in a module
 max-module-lines=1000
