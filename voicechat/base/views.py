@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView,DeleteView,FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.views import LoginView
@@ -15,10 +15,10 @@ from django.shortcuts import redirect
 
 
 class RegisterPage(FormView):
-    template_name = 'base/register.html'
+    template_name = "base/register.html"
     form_class = UserCreationForm
     redirect_authenticated_user = True
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy("index")
 
     def form_valid(self, form):
         user = form.save()
@@ -42,28 +42,28 @@ class CustomLoginView(LoginView):
 
 # Create your views here.
 class TaskList(PermissionRequiredMixin, ListView):
-    model=Task
-    context_object_name= 'tasks'
+    model = Task
+    context_object_name = 'tasks'
 
 class TaskDetail(PermissionRequiredMixin,DetailView):
-    model=Task
-    context_object_name='task'
-    template_name='base/task.html'
+    model = Task
+    context_object_name = 'task'
+    template_name = 'base/task.html'
 
 class TaskCreate(PermissionRequiredMixin,CreateView):
-    model=Task
-    fields='__all__'
-    template_name='base/create.html'
-    success_url= reverse_lazy('index')
+    model = Task
+    fields = '__all__'
+    template_name = 'base/create.html'
+    success_url = reverse_lazy('index')
 
 class TaskUpdate(PermissionRequiredMixin,UpdateView):
-    model=Task
-    fields='__all__'
-    template_name='base/create.html'
-    success_url= reverse_lazy('index')
+    model = Task
+    fields = '__all__'
+    template_name = 'base/create.html'
+    success_url = reverse_lazy('index')
 
 class TaskDelete(PermissionRequiredMixin,DeleteView):
-    model=Task
-    fields='__all__'
-    template_name='base/delete.html'
-    success_url= reverse_lazy('index')
+    model = Task
+    fields = '__all__'
+    template_name = 'base/delete.html'
+    success_url = reverse_lazy('index')
