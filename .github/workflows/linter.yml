@@ -43,5 +43,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_PYTHON: true
           VALIDATE_CSS: true
-          VALIDATE_PYTHON: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
