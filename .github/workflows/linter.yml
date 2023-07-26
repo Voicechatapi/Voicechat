@@ -30,11 +30,6 @@ jobs:
           LINTER_RULES_PATH: /
 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
       - name: flake8 Lint
         uses: py-actions/flake8@v2
           
