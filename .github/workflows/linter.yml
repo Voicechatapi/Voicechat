@@ -30,7 +30,3 @@ jobs:
           LINTER_RULES_PATH: /
 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      
-      - name: flake8 Lint
-        uses: py-actions/flake8@v2
