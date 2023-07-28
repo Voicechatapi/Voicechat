@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
             name='Task',
             fields=[
                 (
-                    'id', 
+                    'id',
                     models.BigAutoField(
-                        auto_created=True, 
-                        primary_key=True, 
-                        serialize=False, 
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
                         verbose_name='ID',
                     ),
                 ),
@@ -30,11 +30,11 @@ class Migration(migrations.Migration):
                 ('complete', models.BooleanField(default=False)),
                 ('creat', models.DateTimeField(auto_now_add=True)),
                 (
-                    'user', 
+                    'user',
                     models.ForeignKey(
-                        blank=True, 
-                        null=True, 
-                        on_delete=django.db.models.deletion.CASCADE, 
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
                     )
                 ),
