@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html> 
+
 {% extends 'base/main.html' %}
 {% block content %}
 
@@ -17,8 +20,8 @@
 
 <div id="search-add-wrapper">
     <form method="GET" style="margin-top: 20px;display: flex;">
-        <input type='text' name='search-area' value="{{search_input}}">
-        <input class="button" type='submit' value='Search'>
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input class="button" type="submit" value="Search">
     </form>
     <a id="add-link" href="{% url 'task-create' %}">&#x2b;</a>
 </div>
@@ -51,3 +54,4 @@
 
 {% endblock content %}
 
+</html>
