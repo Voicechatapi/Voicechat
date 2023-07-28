@@ -44,6 +44,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_HTML: true
           VALIDATE_CSS: true
+          FILTER_REGEX_EXCLUDE: .*venv/.*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: flake8 Lint
         run: |
