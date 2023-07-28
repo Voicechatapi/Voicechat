@@ -1,7 +1,7 @@
 # from typing import Any, Dict
 # from django.forms.models import BaseModelForm
 # from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
