@@ -51,3 +51,4 @@ jobs:
           pip install flake8
           pip install flake8-quotes
           flake8 --inline-quotes "'"
+          --exclude=.venv/
