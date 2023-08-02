@@ -85,3 +85,8 @@ class DeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
+    
+class StarterView(LoginView):
+    model = Task
+    context_object_name = 'task'
+    template_name = 'base/starter.html'
