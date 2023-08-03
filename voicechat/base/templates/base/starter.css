@@ -1,0 +1,24 @@
+body {
+    background-color: #002329;
+    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+    font-family: "Abel", sans-serif;
+    color: white;
+}
+
+.heading {
+    font-size: 52px;
+    font-family: "Lobster", cursive;
+    color: white;
+    margin-bottom: 0;
+}
+
+p.desc {
+    letter-spacing: 0.5px;
+    margin-top: 0;
+    margin-bottom: 60px;
+}
+
+.align-center {
+    text-align: center;
+    margin-top: 20%;
+}
