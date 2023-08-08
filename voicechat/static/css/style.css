@@ -23,16 +23,31 @@
     --incoming-chat-bg: #f7f7f8;
     --outgoing-chat-border: #ffffff;
     --incoming-chat-border: #d9d9e3;
+
 }
 body {
     background: var(--outgoing-chat-bg);
 }
+
+.dropdown {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Place the dropdown above other content */
+    padding: 10px;
+}
 /* Chats container styling */
 .chat-container {
-    overflow-y: auto;
-    max-height: 100vh;
+    display: flex;
+    position: fixed;
+    width: 85%;
+    height: 85%;
+    right: 0;
+    max-height: 500vh;
     padding-bottom: 150px;
 }
+
 :where(.chat-container, textarea)::-webkit-scrollbar {
     width: 6px;
 }
@@ -53,7 +68,8 @@ body {
     padding: 0 10px;
     text-align: center;
     color: var(--text-color);
-  }
+    margin: 0 auto; /* Center horizontally */
+}
 
 /* Typing container styling */
 .typing-container {
@@ -91,14 +107,31 @@ body {
     overflow-y: auto;
     background: var(--incoming-chat-bg);
     outline: 1px solid var(--incoming-chat-border);
+}
+.typing-content span {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    border-radius: 4px;
+    font-size: 1.35rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-color);
+  }
+
+  .typing-container {
+    padding: 15px 10px;
+  }
+  .typing-textarea textarea {
+    height: 45px;
+    padding: 10px 40px 10px 10px;
   }
 /* History container styling */
-
 .history-container {
     position: fixed;
     top: 0; /* Use 'top' property instead of 'bottom' for vertical positioning */
     left: 0; /* Use 'left' property to move the container to the left */
-    height: 100%; /* Set the height to your desired value */
+    height: 80%; /* Set the height to your desired value */
     width: 15%;
     display: flex;
     flex-direction: column; /* Set the flex-direction to 'column' for vertical arrangement */
@@ -106,6 +139,22 @@ body {
     justify-content: center;
     background: var(--outgoing-chat-bg);
     border-right: 1px solid var(--incoming-chat-border); /* Add a vertical border on the right side */
+}
+
+/* Setting container styling */
+.setting-container {
+    position: fixed;
+    bottom: 0; /* Use 'top' property instead of 'bottom' for vertical positioning */
+    left: 0; /* Use 'left' property to move the container to the left */
+    height: 20%; /* Set the height to your desired value */
+    width: 15%;
+    display: flex;
+    flex-direction: column; /* Set the flex-direction to 'column' for vertical arrangement */
+    padding: 10px 20px; /* Adjust padding as needed */
+    justify-content: center;
+    background: var(--outgoing-chat-bg);
+    border-right: 1px solid var(--incoming-chat-border); /* Add a vertical border on the right side */
+    border-top: 1px solid var(--incoming-chat-border); /* Add a vertical border on the right side */
 }
 
 span.material-symbols-rounded {
