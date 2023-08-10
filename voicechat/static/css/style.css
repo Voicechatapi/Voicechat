@@ -23,7 +23,6 @@
     --incoming-chat-bg: #f7f7f8;
     --outgoing-chat-border: #ffffff;
     --incoming-chat-border: #d9d9e3;
-
 }
 body {
     background: var(--outgoing-chat-bg);
@@ -31,7 +30,7 @@ body {
 
 .dropdown {
     position: absolute;
-    top: 20px; /* Adjust as needed */
+    top: 5%; /* Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
     z-index: 2; /* Place the dropdown above other content */
@@ -39,15 +38,57 @@ body {
 }
 /* Chats container styling */
 .chat-container {
-    display: flex;
+    overflow-y: auto;
     position: fixed;
     width: 85%;
     height: 85%;
+    top: 15%;
     right: 0;
     max-height: 500vh;
     padding-bottom: 150px;
 }
 
+.chat-container .chat {
+    padding: 25px 10px;
+    display: flex;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+.chat .chat-details {
+    display: flex;
+    align-items: center;
+}
+.chat .chat-details img {
+    width: 35px;
+    height: 35px;
+    align-self: flex-start;
+    object-fit: cover;
+    border-radius: 2px;
+}
+.chat .chat-details p {
+    white-space: pre-wrap;
+    font-size: 1.05rem;
+    padding: 0 50px 0 25px;
+    color: var(--text-color);
+    word-break: break-word;
+}
+.chat .chat-content {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+.chat .chat-content span {
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: var(--icon-color);
+    visibility: hidden;
+}
+
+
+/* Scrollbar Styling */
 :where(.chat-container, textarea)::-webkit-scrollbar {
     width: 6px;
 }
@@ -68,8 +109,16 @@ body {
     padding: 0 10px;
     text-align: center;
     color: var(--text-color);
-    margin: 0 auto; /* Center horizontally */
+    margin: 0 auto;
 }
+.default-text h1 {
+    font-size: 3.3rem;
+}
+.default-text p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
 
 /* Typing container styling */
 .typing-container {
@@ -117,15 +166,15 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--icon-color);
-  }
+}
 
-  .typing-container {
+.typing-container {
     padding: 15px 10px;
-  }
-  .typing-textarea textarea {
+}
+.typing-textarea textarea {
     height: 45px;
     padding: 10px 40px 10px 10px;
-  }
+}
 /* History container styling */
 .history-container {
     position: fixed;
@@ -160,11 +209,4 @@ body {
 span.material-symbols-rounded {
     user-select: none;
     cursor: pointer;
-}
-
-.chat .chat-content span {
-    cursor: pointer;
-    font-size: 1.3rem;
-    color: var(--icon-color);
-    visibility: hidden;
 }

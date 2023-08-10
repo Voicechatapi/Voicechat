@@ -4,6 +4,7 @@ const themeButton = document.getElementById("theme-btn");
 const chatInput = document.getElementById("chat-input");
 const chatContainer = document.querySelector(".chat-container");
 const sendButton = document.getElementById("send-btn");
+const clearButton = document.getElementById("clear-btn");
 
 const initialInputHeight = chatInput.scrollHeight;
 let userText = null;
@@ -12,7 +13,7 @@ let userText = null;
  * LOAD LOCAL STORAGE
  */
 function loadLocalStorage() {
-    const defaultText = 
+    const defaultText =
         `<div class="default-text">
             <h1>ChatGPT ......</h1>
                 <p>Start a conversation and explore the power of AI.<br> Your chat history will be displayed here.</p>
@@ -41,41 +42,41 @@ const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
 
     const data = {
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "user",
-          content: `some random prompt`,
-        },
-      ],
-      temperature: 1.0,
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: "user",
+                content: `some random prompt`,
+            },
+        ],
+        temperature: 1.0,
     };
-  
+
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + API_KEY,
-        },
-        body: JSON.stringify(data),
-      });
-  
-      const outputData = await res.json();
-      pElement.textContent= outputData.choices[0].message.content;
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + API_KEY,
+            },
+            body: JSON.stringify(data),
+        });
+
+        const outputData = await res.json();
+        pElement.textContent = outputData.choices[0].message.content;
     } catch (e) {
-      console.log(e);
-      pElement.classList.add("error");
-      pElement.textContent = "Sorry, I'm having trouble reaching the OpenAI API at the moment.";
+        console.log(e);
+        pElement.classList.add("error");
+        pElement.textContent = "Sorry, I'm having trouble reaching the OpenAI API at the moment.";
     }
-    
+
     incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
     localStorage.setItem("all-chats", chatContainer.innerHTML);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 
-  };
-  
-  const showTypingAnimation = () => {
+};
+
+const showTypingAnimation = () => {
     // Display the typing animation and call the getChatResponse function
     const html = `<div class="chat-content">
                     <div class="chat-details">
@@ -89,14 +90,24 @@ const getChatResponse = async (incomingChatDiv) => {
     getChatResponse(incomingChatDiv);
 }
 
+/**
+ * clear the whole page
+ */
+function clear() {
+    // Remove the chats from local storage and call loadDataFromLocalstorage function
+    if (confirm("Are you sure you want to delete all the chats?")) {
+        localStorage.removeItem("all-chats");
+        loadLocalStorage();
+    }
+}
 
 /**
  * send chat and display in container
  */
- const handleOutgoingChat = () => {
+const handleOutgoingChat = () => {
     userText = chatInput.value.trim(); // Get chatInput value and remove extra spaces
-    if(!userText.trim()) {
-        return; 
+    if (!userText.trim()) {
+        return;
     } // If chatInput is empty return from here
 
     // Clear the input field and reset its height
@@ -129,6 +140,7 @@ function init() {
     // Add event listeners to buttons
     themeButton.addEventListener("click", toggleLightMode);
     sendButton.addEventListener("click", handleOutgoingChat);
+    clearButton.addEventListener("click", clear);
     loadLocalStorage();
 }
 
