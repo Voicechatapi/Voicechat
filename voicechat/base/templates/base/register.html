@@ -11,8 +11,8 @@
 <div class="card-body">
     <form method="POST">
         {% csrf_token %}
-        <label>{{form.username.label}}</label>
-        {{form.username}}
+        <label>{{form.email.label}}</label>
+        {{form.email}}
 
         <label>{{form.password1.label}}</label>
         {{form.password1}}
