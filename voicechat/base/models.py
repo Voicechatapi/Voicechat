@@ -15,3 +15,28 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['complete']
+
+
+class ChatMessage(models.Model):
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    sender = models.CharField(max_length=10)  # "user" or "bot"
+
+    def __str__(self):
+        return self.content
+
+class ChatHistory(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    messages = models.ManyToManyField(ChatMessage)
+
+    def __str__(self):
+        return f"Chat history at {self.timestamp}"
+
+class ChatMetaData(models.Model):
+    unique_id = models.CharField(max_length=20, unique=True)
+    generated_name = models.CharField(max_length=10)
+    date = models.DateTimeField()
+    chat_history = models.ForeignKey(ChatHistory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.generated_name

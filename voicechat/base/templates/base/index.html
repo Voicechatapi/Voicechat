@@ -1,35 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">>
+<html lang="en">
 
 {% load static %}
 
 <head>
     <meta charset="utf-8">
-    <title> main page interface</title>
-    <!-- link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" -->
-    <link rel="stylesheet" type="text/css" href="/voicechat/static/css/style.css">
-
+    <title>Chat Application</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fonts Link For Icons -->
-    <!-- link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" / -->
-
-    <script src="/voicechat/static/js/script.js" defer></script>
+    <script src="{% static 'js/test.js' %}" defer></script>
 </head>
 
 <body>
-
+    <!-- Role selection dropdown -->
     <div class="dropdown">
         <label for="roles">Select a Role:</label>
         <select id="roles" name="roles">
             <option value="ielts">IELTS/TOEFL</option>
-            <option value="interview">Interview </option>
+            <option value="interview">Interview</option>
         </select>
     </div>
+
     <!-- Chats container -->
-    <div class="chat-container"></div>
-
-
+    <div class="chat-container">
+        <!-- Chat messages will be dynamically added here -->
+    </div>
 
     <!-- Typing container -->
     <div class="typing-container">
@@ -39,15 +34,14 @@
                 <span id="send-btn" class="material-symbols-rounded">send</span>
                 <span id="clear-btn" class="material-symbols-rounded">clear</span>
                 <span id="save-btn" class="material-symbols-rounded">save</span>
-
             </div>
-
         </div>
     </div>
 
     <!-- History container -->
     <div class="history-container">
         <h2>History</h2>
+        <!-- Chat history will be displayed here -->
     </div>
 
     <!-- Setting container -->
@@ -59,7 +53,6 @@
             <a href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
-
 </body>
 
 </html>

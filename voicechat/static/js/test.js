@@ -216,14 +216,14 @@ const handleOutgoingChat = () => {
 function init() {
     // Add event listeners to buttons
     themeButton.addEventListener("click", toggleLightMode);
-    sendButton.addEventListener("click", handleOutgoingChat);
-    clearButton.addEventListener("click", clear);
-    saveButton.addEventListener("click", saveHandler);
+    //sendButton.addEventListener("click", handleOutgoingChat);
+    //clearButton.addEventListener("click", clear);
+    //saveButton.addEventListener("click", saveHandler);
     //saveButton.addEventListener("click", save);
 
-    displayChatNames()
-    loadLocalStorage();
-    displayChatNames();
+    //displayChatNames()
+    //loadLocalStorage();
+    //displayChatNames();
 }
 
 

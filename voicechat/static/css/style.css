@@ -185,9 +185,15 @@ body {
     display: flex;
     flex-direction: column; /* Set the flex-direction to 'column' for vertical arrangement */
     padding: 10px 20px; /* Adjust padding as needed */
-    justify-content: center;
     background: var(--outgoing-chat-bg);
     border-right: 1px solid var(--incoming-chat-border); /* Add a vertical border on the right side */
+}
+
+.history-container .his{
+    padding: 25px 10px;
+    display: flex;
+    justify-content: center;
+    color: var(--text-color);
 }
 
 /* Setting container styling */
