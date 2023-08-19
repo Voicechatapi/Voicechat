@@ -8,7 +8,11 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+
+import json
+import requests
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Task
 
@@ -45,24 +49,43 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     template_name = 'base/index.html'
 
-    def get_queryset(self):
-        tasks = Task.objects.filter(user=self.request.user)
-        return tasks
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Retrieve the queryset that was already filtered in get_queryset
-        tasks = context['tasks']
-
-        context['count'] = tasks.filter(complete=False).count
-
-        search_input = self.request.GET.get('search-area') or ''
-        if search_input:
-            context['tasks'] = tasks.filter(title__startswith=search_input)
-
-        context['search_input'] = search_input
+        # Your existing context data
         return context
+
+    def post(self, request, *args, **kwargs):
+        user_input = request.POST.get('user_input')
+
+        # Set up the data for OpenAI API request
+        data = {
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": user_input}],
+            "temperature": 1.0,
+        }
+
+        # Make API call to OpenAI
+        response = requests.post(
+            'https://api.openai.com/v1/chat/completions',
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {API_KEY}',  # Replace API_KEY with your actual API key
+            },
+            json=data
+        )
+
+        # Process the OpenAI API response
+        bot_response = ""
+        if response.status_code == 200:
+            output_data = response.json()
+            bot_response = output_data['choices'][0]['message']['content']
+        else:
+            bot_response = "Sorry, I'm having trouble reaching the OpenAI API at the moment."
+
+        # Save the chat history to the database
+        # ... (your code to save chat history)
+
+        return JsonResponse({'bot_response': bot_response})
     
 
 

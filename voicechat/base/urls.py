@@ -9,5 +9,5 @@ urlpatterns = [
     path('register/', RegisterPage.as_view(), name='register'),
     path('', StarterView.as_view(), name='starter'),
     # path('interface/', TaskList.as_view(), name='tasks'),
-    path('index/', TaskList.as_view(), name='index'),
+    path('index/', TaskList.as_view(), name='task_list'),
 ]
