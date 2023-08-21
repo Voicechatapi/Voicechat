@@ -3,8 +3,11 @@ const API_KEY = "PASTE-YOUR-API-KEY-HERE"; // Paste your API key here
 const themeButton = document.getElementById("theme-btn");
 const chatInput = document.getElementById("chat-input");
 const chatContainer = document.querySelector(".chat-container");
+const hisContainer = document.querySelector(".history-container");
 const sendButton = document.getElementById("send-btn");
 const clearButton = document.getElementById("clear-btn");
+const saveButton = document.getElementById("save-btn");
+
 
 const initialInputHeight = chatInput.scrollHeight;
 let userText = null;
@@ -18,7 +21,21 @@ function loadLocalStorage() {
             <h1>ChatGPT ......</h1>
                 <p>Start a conversation and explore the power of AI.<br> Your chat history will be displayed here.</p>
         </div>`
-    chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
+    //chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
+    const chatMessages = JSON.parse(localStorage.getItem("names"));
+    if (chatMessages && Array.isArray(chatMessages)) {
+        // Clear previous content from chat container
+        chatContainer.innerHTML = '';
+
+        // Iterate over chat messages and append chat content to chat container
+        chatMessages.forEach(message => {
+            chatContainer.innerHTML += message.chatContent;
+        });
+    } else {
+        chatContainer.innerHTML = defaultText;
+    }
+
+    //chatContainer.innerHTML = localStorage.getItem("names") || defaultText;
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 }
 
@@ -29,6 +46,8 @@ function toggleLightMode() {
     document.body.classList.toggle("light-mode");
 }
 
+
+// create a div element for the chat and name the class as 'chat'
 const createChatElement = (content, className) => {
     // Create new div and apply chat, specified class and set html content of div
     const chatDiv = document.createElement("div");
@@ -37,7 +56,16 @@ const createChatElement = (content, className) => {
     return chatDiv; // Return the created chat div
 }
 
+const createHistoryElement = (content, className) => {
+    // Create new div and apply chat, specified class and set html content of div
+    const hisDiv = document.createElement("div");
+    hisDiv.classList.add("his", className);
+    hisDiv.innerHTML = content;
+    return hisDiv; // Return the created chat div
+}
 
+
+// Call ChatGPT API to get the response
 const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p");
 
@@ -71,7 +99,6 @@ const getChatResponse = async (incomingChatDiv) => {
     }
 
     incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
-    localStorage.setItem("all-chats", chatContainer.innerHTML);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 
 };
@@ -97,9 +124,75 @@ function clear() {
     // Remove the chats from local storage and call loadDataFromLocalstorage function
     if (confirm("Are you sure you want to delete all the chats?")) {
         localStorage.removeItem("all-chats");
+        localStorage.removeItem("names");
         loadLocalStorage();
     }
 }
+
+function displayChatNames() {
+    const html = `<div class="chat-list">
+                    <p> hitory </p>
+                    </div>`;
+    const chatListContainer = createHistoryElement(html, "chatlist");
+
+    const chatHistory = localStorage.getItem("all-chat");
+    //const chatHistory = localStorage.getItem("names");
+
+    if (chatHistory) {
+        chatListContainer.innerHTML = chatHistory;
+    }
+}
+
+function generateUniqueId() {
+    return 'id_' + Date.now(); // Using current timestamp as part of the ID
+}
+
+
+function saveHandler() {
+    if (confirm("Are you sure you want to save all the chats?")) {
+        var namesArr = [];
+        var currentDate = new Date().toISOString();
+        var uniqueId = generateUniqueId();
+        var generatedName = (namesArr.length + 1).toString(); // Generate name as "1", "2", "3", ...
+        var nameData = {
+            id: uniqueId,
+            name: generatedName,
+            date: currentDate,
+            chatContent: ("all-chats", chatContainer.innerHTML),
+        };
+        namesArr.push(nameData);
+        localStorage.setItem('names', JSON.stringify(namesArr));
+
+    }
+}
+
+function displaySavedChats() {
+    historyContainer.innerHTML = '';
+
+    var namesArr = JSON.parse(localStorage.getItem('names')) || [];
+
+    namesArr.forEach(function (nameData) {
+        var chatEntry = document.createElement('div');
+        chatEntry.className = 'chat-history-entry'; // Add a CSS class for styling
+        chatEntry.innerHTML = `
+            <p><strong>Name:</strong> ${nameData.name}</p>
+            <p><strong>Date:</strong> ${nameData.date}</p>
+            <p><strong>Chat Content:</strong></p>
+            <div>${nameData.chatContent}</div>
+            <hr>
+        `;
+        historyContainer.appendChild(chatEntry);
+    });
+}
+
+
+
+function save() {
+    if (confirm("Are you sure you want to save all the chats?")) {
+        localStorage.setItem("all-chats", chatContainer.innerHTML);
+    }
+}
+
 
 /**
  * send chat and display in container
@@ -129,9 +222,6 @@ const handleOutgoingChat = () => {
     setTimeout(showTypingAnimation, 500);
 }
 
-
-
-
 /**
  * Sets up the page, adding event listeners and initial values.
  * Called after the page has loaded.
@@ -141,7 +231,12 @@ function init() {
     themeButton.addEventListener("click", toggleLightMode);
     sendButton.addEventListener("click", handleOutgoingChat);
     clearButton.addEventListener("click", clear);
+    saveButton.addEventListener("click", saveHandler);
+    //saveButton.addEventListener("click", save);
+
+    displayChatNames()
     loadLocalStorage();
+    displayChatNames();
 }
 
 
