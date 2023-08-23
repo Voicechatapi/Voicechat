@@ -1,7 +1,8 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 class CustomUserManager(BaseUserManager):
@@ -18,10 +19,11 @@ class CustomUserManager(BaseUserManager):
         user = self.create_user(email, password=password, is_staff=True, **extra_fields)
         user.is_active = True
         user.is_superuser = True
+        user.is_staff = True
         user.save(using=self._db)
         return
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
@@ -49,3 +51,12 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['complete']
+        
+class Conversation(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp']

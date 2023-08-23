@@ -1,9 +1,11 @@
 # from typing import Any, Dict
 # from django.forms.models import BaseModelForm
-# from django.http import HttpResponse
+from django.http import JsonResponse
+#from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.views import LoginView
@@ -11,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
+from .models import Conversation
 
 from .models import Task
 
@@ -58,9 +61,13 @@ class TaskList(LoginRequiredMixin, ListView):
 
         context['search_input'] = search_input
         return context
+    
 
     
 class StarterView(LoginView):
     model = Task
     context_object_name = 'task'
     template_name = 'base/starter.html'
+    
+
+
