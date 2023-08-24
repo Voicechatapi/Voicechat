@@ -24,21 +24,7 @@ function loadLocalStorage() {
             <h1>ChatGPT ......</h1>
                 <p>Start a conversation and explore the power of AI.<br> Your chat history will be displayed here.</p>
         </div>`
-    //chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
-    const chatMessages = JSON.parse(localStorage.getItem("names"));
-    if (chatMessages && Array.isArray(chatMessages)) {
-        // Clear previous content from chat container
-        chatContainer.innerHTML = '';
-
-        // Iterate over chat messages and append chat content to chat container
-        chatMessages.forEach(message => {
-            chatContainer.innerHTML += message.chatContent;
-        });
-    } else {
-        chatContainer.innerHTML = defaultText;
-    }
-    //chatContainer.innerHTML = localStorage.getItem("names") || defaultText;
-    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    chatContainer.innerHTML = defaultText;
 }
 
 /**
@@ -127,8 +113,9 @@ function clear() {
     if (confirm("Are you sure you want to delete all the chats?")) {
         localStorage.removeItem("all-chats");
         localStorage.removeItem("names");
-        loadLocalStorage();
+        displaySavedChats();
     }
+
 }
 
 function displayChatNames() {
@@ -166,27 +153,8 @@ function saveHandler() {
         localStorage.setItem('names', JSON.stringify(namesArr));
 
     }
+
 }
-
-// function displaySavedChats() {
-//     historyContainer.innerHTML = '';
-
-//     var namesArr = JSON.parse(localStorage.getItem('names')) || [];
-
-//     namesArr.forEach(function (nameData) {
-//         var chatEntry = document.createElement('div');
-//         chatEntry.className = 'chat-history-entry'; // Add a CSS class for styling
-//         chatEntry.innerHTML = `
-//             <p><strong>Name:</strong> ${nameData.name}</p>
-//             <p><strong>Date:</strong> ${nameData.date}</p>
-//             <p><strong>Chat Content:</strong></p>
-//             <div>${nameData.chatContent}</div>
-//             <hr>
-//         `;
-//         historyContainer.appendChild(chatEntry);
-//     });
-// }
-
 
 /**
  * send chat and display in container
@@ -223,6 +191,7 @@ function startNewChat() {
     // For example, resetting variables, loading default messages, etc.
     // Scroll to the bottom after clearing the content
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    loadLocalStorage();
 }
 
 function displaySavedChats() {
@@ -237,15 +206,15 @@ function displaySavedChats() {
         historyEntry.dataset.index = index; // Store the index for later reference
 
         const nameParagraph = document.createElement('p');
+        nameParagraph.classList.add('material-symbols-rounded');
         nameParagraph.innerHTML = `<strong>Name:</strong> ${nameData.name}`;
         historyEntry.appendChild(nameParagraph);
 
         // Add a click event listener to the history entry
         historyEntry.addEventListener('click', function () {
-            console.log("Clicked on history entry:", nameData.chatContent);
             chatContainer.innerHTML = '';
             chatContainer.innerHTML = nameData.chatContent; // Display chat content when clicked
-            //chatContainer.scrollTo(0, chatContainer.scrollHeight);
+            chatContainer.scrollTo(0, chatContainer.scrollHeight);
         });
         historyList.appendChild(historyEntry);
     });
@@ -264,7 +233,7 @@ function init() {
     saveButton.addEventListener("click", saveHandler);
     newChatBox.addEventListener("click", startNewChat);
 
-    displaySavedChats()
+    displaySavedChats();
     loadLocalStorage();
 }
 

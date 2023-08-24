@@ -206,7 +206,10 @@ body {
     border-top: 1px solid var(--incoming-chat-border); /* Add a vertical border on the right side */
 }
 
-span.material-symbols-rounded {
+.material-symbols-rounded {
     user-select: none;
+    cursor: pointer;
+}
+.chat-history-entry {
     cursor: pointer;
 }
