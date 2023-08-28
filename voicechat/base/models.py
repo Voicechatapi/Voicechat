@@ -42,6 +42,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Task(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
+    chatContent = models.TextField(null=True)
+    id = models.CharField(max_length=200, primary_key=True)
+    name  = models.CharField(max_length=200, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -50,14 +53,3 @@ class Task(models.Model):
     class Meta:
         ordering = ['created']
 
-class Conversation(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    chatContent = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    id = models.CharField(max_length=200, primary_key=True)
-    name  = models.CharField(max_length=200, null=True, blank=True)
-    
-    #sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
-    
-    class Meta:
-        ordering = ['timestamp']

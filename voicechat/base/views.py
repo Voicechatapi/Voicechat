@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-
+from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -52,6 +52,7 @@ class TaskList(LoginRequiredMixin, ListView):
         context['tasks'] = context['tasks'].filter(user=self.request.user)
 
         return context
+    
 
     
 class StarterView(LoginView):
