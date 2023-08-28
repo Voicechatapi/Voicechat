@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 class CustomUserManager(BaseUserManager):
@@ -16,12 +16,13 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, email, password=None, **extra_fields):
         user = self.create_user(email, password=password, is_staff=True, **extra_fields)
+        user.is_staff = True
         user.is_active = True
         user.is_superuser = True
         user.save(using=self._db)
         return
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
@@ -35,17 +36,28 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
 
 
 class Task(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
-    description = models.TextField(null=True, blank=True)
-    complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['complete']
+        ordering = ['created']
+
+class Conversation(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    chatContent = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    id = models.CharField(max_length=200, primary_key=True)
+    name  = models.CharField(max_length=200, null=True, blank=True)
+    
+    #sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
+    
+    class Meta:
+        ordering = ['timestamp']
