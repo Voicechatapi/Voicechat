@@ -1,6 +1,7 @@
 # from typing import Any, Dict
 # from django.forms.models import BaseModelForm
 # from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -47,11 +48,29 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     template_name = 'base/interface.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
-
         return context
+
+    def post(self, request, *args, **kwargs):
+        chat_content = request.POST.get('chatContent')
+        chat_id = request.POST.get('chat_id')
+        chat_name = request.POST.get('chat_name')
+        if chat_content:
+            if Task.objects.get(id=chat_id).exist():
+                task.chatContent += chat_content
+            else:
+                task = Task.objects.get_or_create(user=request.user)
+                task.chatContent = chat_content
+                task.chat_id = chat_id
+                task.chat_name = chat_name
+            task.save()
+            
+        else:
+            response_data = {'status': 'error', 'message': 'Chat content is required.'}
+        
+        return JsonResponse(response_data)
     
 
     
