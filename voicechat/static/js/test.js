@@ -10,6 +10,7 @@ const saveButton = document.getElementById("save-btn");
 const newChatBox = document.getElementById("new-chat-box");
 
 
+
 const initialInputHeight = chatInput.scrollHeight;
 let userText = null;
 
@@ -141,6 +142,24 @@ function saveHandler() {
         namesArr.push(nameData); // Add the new chat to the array of saved chats
         localStorage.setItem('names', JSON.stringify(namesArr)); // Save the updated array
         displaySavedChats(); // Refresh the displayed history list
+
+    
+        fetch('/interface/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // Replace with your CSRF token
+            },
+            body: JSON.stringify(nameData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(nameData); // Response from the server
+            // Perform any further actions based on the response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 }
 
@@ -157,6 +176,7 @@ const handleOutgoingChat = () => {
     } // If chatInput is empty return from here
 
     // Clear the input field and reset its height
+
     chatInput.value = "";
     chatInput.style.height = `${initialInputHeight}px`;
 
@@ -173,6 +193,10 @@ const handleOutgoingChat = () => {
     chatContainer.appendChild(outgoingChatDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
     setTimeout(showTypingAnimation, 500);
+
+
+
+
 
 }
 
