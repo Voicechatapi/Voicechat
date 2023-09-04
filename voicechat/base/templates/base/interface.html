@@ -33,7 +33,13 @@
                 <textarea id="chat-input" spellcheck="false" placeholder="Enter a prompt here" required></textarea>
                 <span id="send-btn" class="material-symbols-rounded">send</span>
                 <span id="clear-btn" class="material-symbols-rounded">clear</span>
-                <button id="save-btn" class="save-button">save</button>
+                 <form id="myForm" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="chatContent" id="chat_content_input" hidden><br>
+                    <input type="text" name="chat_id" id="chat_id_input" hidden><br>
+                    <input type="text" name="chat_name" id="chat_name_input" hidden><br>
+                    <button id="save-btn" class="save-button">save</button>
+                 </form>
             </div>
         </div>
     </div>

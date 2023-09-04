@@ -138,6 +138,14 @@ function generateUniqueId() {
 
 
 function saveHandler() {
+    var chatContentInput = document.getElementById('chat_content_input');
+    var chatIdInput = document.getElementById('chat_id_input');
+    var chatNameInput = document.getElementById('chat_name_input');
+
+    chatContentInput.value = chatContainer.innerHTML;
+    chatIdInput.value = generateUniqueId();
+    chatNameInput.value = JSON.parse(localStorage.getItem('names')) || [];
+
     if (confirm("Are you sure you want to save all the chats?")) {
         var namesArr = JSON.parse(localStorage.getItem('names')) || [];
         var currentDate = new Date().toISOString();
@@ -149,6 +157,7 @@ function saveHandler() {
             date: currentDate,
             chatContent: ("all-chats", chatContainer.innerHTML),
         };
+
         namesArr.push(nameData);
         localStorage.setItem('names', JSON.stringify(namesArr));
 
