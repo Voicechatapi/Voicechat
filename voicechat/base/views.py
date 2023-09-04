@@ -62,9 +62,11 @@ class TaskList(LoginRequiredMixin, ListView):
                 task = Task.objects.get(id=chat_id)
                 if task:
                     task.chatContent += chat_content
+                    task.id = chat_id
+                    task.name = chat_name
                     task.save()
             except Task.DoesNotExist:
-                task = Task.objects.create(user=request.user, id=chat_id, chatContent=chat_content, chat_name=chat_name)
+                task = Task.objects.create(user=request.user, id=chat_id, chatContent=chat_content, name=chat_name)
         else:
             response_data = {'status': 'error', 'message': 'Chat content is required.'}
             return JsonResponse(response_data, status=400)
