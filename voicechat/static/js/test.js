@@ -78,13 +78,19 @@ const getChatResponse = async (incomingChatDiv) => {
         });
 
         const outputData = await res.json();
-        pElement.textContent = outputData.choices[0].message.content;
+        if (outputData.choices && outputData.choices[0] && outputData.choices[0].message) {
+            pElement.textContent = outputData.choices[0].message.content;
+        } else {
+            // Handle the case where the response data is incomplete or missing
+            pElement.classList.add("error");
+            pElement.textContent = "Incomplete response data received.";
+        }
+
     } catch (e) {
         console.log(e);
         pElement.classList.add("error");
         pElement.textContent = "Sorry, I'm having trouble reaching the OpenAI API at the moment.";
     }
-
     incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 
@@ -132,35 +138,47 @@ function saveHandler() {
         chatContainer.querySelectorAll(".chat").forEach(chat => {
             conversation.push(chat.outerHTML); // Save each chat message
         });
-
+        
+        console.log(uniqueId); 
+        
         var nameData = {
             id: uniqueId,
             name: generatedName,
             date: currentDate,
             conversation: conversation, // Save the conversation array
         };
-        namesArr.push(nameData); // Add the new chat to the array of saved chats
-        localStorage.setItem('names', JSON.stringify(namesArr)); // Save the updated array
-        displaySavedChats(); // Refresh the displayed history list
-
-    
-        fetch('/interface/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken, // Replace with your CSRF token
-            },
-            body: JSON.stringify(nameData),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(nameData); // Response from the server
-            // Perform any further actions based on the response
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        console.log(nameData.id);
+        
+        document.getElementsByClassName("chatContent").value = nameData.conversation // Set chatContent
+        document.getElementsByClassName("chat_id").value = nameData.id; // Set chat_id
+        document.getElementsByClassName("chat_name").value = nameData.name;
+        
+        namesArr.push(nameData);
+        // Save the updated array in local storage
+        localStorage.setItem('names', JSON.stringify(namesArr));
+        // Refresh the displayed history list
+        displaySavedChats();
     }
+        // namesArr.push(nameData); // Add the new chat to the array of saved chats
+        // localStorage.setItem('names', JSON.stringify(namesArr)); // Save the updated array
+        // displaySavedChats(); // Refresh the displayed history list
+        // fetch('/interface/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'X-CSRFToken': csrfToken, // Replace with your CSRF token
+        //     },
+        //     body: JSON.stringify(nameData),
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(nameData); // Response from the server
+        //     // Perform any further actions based on the response
+        // })
+        // .catch(error => {
+        //     console.error('Error:', error);
+        // });
+    //}
 }
 
 
@@ -193,11 +211,6 @@ const handleOutgoingChat = () => {
     chatContainer.appendChild(outgoingChatDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
     setTimeout(showTypingAnimation, 500);
-
-
-
-
-
 }
 
 function startNewChat() {
