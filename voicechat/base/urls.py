@@ -9,4 +9,5 @@ urlpatterns = [
     path('register/', RegisterPage.as_view(), name='register'),
     path('', StarterView.as_view(), name='starter'),
     path('interface/', TaskList.as_view(), name='tasks'),
+    # path('api/save-chat/', save_chat, name='save_chat'),
 ]

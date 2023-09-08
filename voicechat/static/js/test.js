@@ -139,26 +139,58 @@ function saveHandler() {
             conversation.push(chat.outerHTML); // Save each chat message
         });
         
-        console.log(uniqueId); 
-        
         var nameData = {
             id: uniqueId,
             name: generatedName,
             date: currentDate,
-            conversation: conversation, // Save the conversation array
-        };
-        console.log(nameData.id);
+            chat: conversation, // Save the conversation array
+        };     
         
-        document.getElementsByClassName("chatContent").value = nameData.conversation // Set chatContent
-        document.getElementsByClassName("chat_id").value = nameData.id; // Set chat_id
-        document.getElementsByClassName("chat_name").value = nameData.name;
+
+        // document.getElementById("chat_content_input").value=nameData.chat;
+        // document.getElementById("chat_id_input").value=nameData.id;
+        // document.getElementById("chat_name_input").value=nameData.name;
+
         
-        namesArr.push(nameData);
-        // Save the updated array in local storage
-        localStorage.setItem('names', JSON.stringify(namesArr));
-        // Refresh the displayed history list
-        displaySavedChats();
+        fetch("", {
+            method: "POST",
+            // headers: {
+            //     "Content-Type": "application/json",
+            // },
+            // body: JSON.stringify(),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded", // Use appropriate content type
+            },
+            body: new URLSearchParams({
+                chatContent: nameData.chat,
+                chat_id: nameData.id,
+                chat_name: nameData.name,
+            }),
+        })
+        .then(response => {
+            console.log("Response status:", response.status);
+            if (!response.ok) {
+                // Handle server errors or non-successful responses here
+                throw new Error('Failed to save chat');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Successfully saved chat, you can handle the response if needed
+            console.log("Chat saved successfully:", data);
+            // Add the chat entry to the local storage array
+            namesArr.push(nameData);
+            // Save the updated array in local storage
+            localStorage.setItem('names', JSON.stringify(namesArr));
+            // Refresh the displayed history list
+            displaySavedChats();
+        })
+        .catch(error => {
+            console.error("ERROR: ",error);
+            // Handle errors gracefully, such as displaying an error message to the user
+        });
     }
+}
         // namesArr.push(nameData); // Add the new chat to the array of saved chats
         // localStorage.setItem('names', JSON.stringify(namesArr)); // Save the updated array
         // displaySavedChats(); // Refresh the displayed history list
@@ -179,9 +211,6 @@ function saveHandler() {
         //     console.error('Error:', error);
         // });
     //}
-}
-
-
 
 
 /**
